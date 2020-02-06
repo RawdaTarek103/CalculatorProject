@@ -23,13 +23,15 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 
 public class Calculator {
 
 	private JFrame frmCalculator;
 	private JTextField textField;
 	
-	private double num, result;
+
+	 private Double num = null,result = null;
 	
 	private char operation = '?';
 
@@ -63,11 +65,10 @@ public class Calculator {
 	private double calculate_result()
 	{
 		if(operation == '+')
-		{
-			result = num + Double.parseDouble(textField.getText());
-			//System.out.println(result);
-			
-		}
+			result = num + Double.parseDouble(textField.getText());			
+		
+		else if(operation == '*')
+			result = num * Double.parseDouble(textField.getText());		
 		
 		return num;
 		
@@ -126,7 +127,7 @@ public class Calculator {
 		button_0.setBackground(new Color(44, 41, 42));
 		button_0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(textField.getText().length() != 0)
+				if(!textField.getText().isEmpty())
 					textField.setText(textField.getText()+"0");
 			}
 		});
@@ -140,6 +141,8 @@ public class Calculator {
 		button_1.setBackground(new Color(44, 41, 42));
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(operation == '?' && result != null)
+					textField.setText("");
 				textField.setText(textField.getText()+"1");
 			}
 		});
@@ -153,6 +156,8 @@ public class Calculator {
 		button_2.setBackground(new Color(44, 41, 42));
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(operation == '?' && result != null)
+					textField.setText("");
 				textField.setText(textField.getText()+"2");
 			}
 		});
@@ -166,6 +171,8 @@ public class Calculator {
 		button_3.setBackground(new Color(44, 41, 42));
 		button_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(operation == '?' && result != null)
+					textField.setText("");
 				textField.setText(textField.getText()+"3");
 			}
 		});
@@ -179,6 +186,8 @@ public class Calculator {
 		button_4.setBackground(new Color(44, 41, 42));
 		button_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(operation == '?' && result != null)
+					textField.setText("");
 				textField.setText(textField.getText()+"4");
 			}
 		});
@@ -192,6 +201,8 @@ public class Calculator {
 		button_5.setBackground(new Color(44, 41, 42));
 		button_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(operation == '?' && result != null)
+					textField.setText("");
 				textField.setText(textField.getText()+"5");
 			}
 		});
@@ -205,7 +216,9 @@ public class Calculator {
 		button_6.setBounds(160, 193, 65, 45);
 		button_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-						textField.setText(textField.getText()+"6");
+				if(operation == '?' && result != null)
+					textField.setText("");
+				textField.setText(textField.getText()+"6");
 			}
 		});
 		frmCalculator.getContentPane().add(button_6);
@@ -218,6 +231,8 @@ public class Calculator {
 		button_7.setBackground(new Color(44, 41, 42));
 		button_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(operation == '?' && result != null)
+					textField.setText("");
 				textField.setText(textField.getText()+"7");
 			}
 		});
@@ -231,6 +246,8 @@ public class Calculator {
 		button_8.setBackground(new Color(44, 41, 42));
 		button_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(operation == '?' && result != null)
+					textField.setText("");
 				textField.setText(textField.getText()+"8");
 			}
 		});
@@ -244,6 +261,8 @@ public class Calculator {
 		button_9.setBounds(160, 137, 65, 45);
 		button_9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(operation == '?' && result != null)
+					textField.setText("");
 				textField.setText(textField.getText()+"9");
 			}
 		});
@@ -257,6 +276,8 @@ public class Calculator {
 		button_dot.setBackground(new Color(44, 41, 42));
 		button_dot.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(operation == '?' && result != null)
+					textField.setText("");
 				textField.setText(textField.getText()+".");
 			}
 		});
@@ -270,7 +291,19 @@ public class Calculator {
 		button_mul.setBackground(new Color(28,69,82));
 		button_mul.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//
+				if(!(textField.getText().isEmpty()))
+				{
+					if(operation != '?')
+					{
+						calculate_result();
+						num = result;
+					}
+					else
+						num = Double.parseDouble(textField.getText());
+					
+					operation = '*';
+					textField.setText("");
+				}	
 			}
 		});
 		frmCalculator.getContentPane().add(button_mul);
@@ -285,10 +318,18 @@ public class Calculator {
 			public void actionPerformed(ActionEvent e) {
 				if(!(textField.getText().isEmpty()))
 				{
-					num = Double.parseDouble(textField.getText());
+					if(operation != '?')
+					{
+						calculate_result();
+						num = result;
+					}
+					else
+						num = Double.parseDouble(textField.getText());
+					
 					operation = '+';
 					textField.setText("");
 				}
+				
 			}
 		});
 		frmCalculator.getContentPane().add(button_plus);
@@ -301,10 +342,11 @@ public class Calculator {
 		button_eq.setBackground(new Color(28,69,82));
 		button_eq.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(operation != -1)
+				if(operation != '?')
 				{
 					calculate_result();
 					textField.setText(Double.toString(result));
+					operation = '?';
 				}
 			}
 		});
@@ -370,6 +412,7 @@ public class Calculator {
 		button_CL.setBounds(235, 81, 65, 45);
 		button_CL.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				operation = '?';
 				textField.setText("");
 			}
 		});
