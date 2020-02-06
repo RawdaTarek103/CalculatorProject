@@ -1,4 +1,5 @@
 import java.awt.EventQueue;
+//button_mul.setEnabled(false);
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
@@ -30,10 +31,30 @@ public class Calculator {
 	private JFrame frmCalculator;
 	private JTextField textField;
 	
+	private JButton button_del;
+	private JButton button_1;
+	private JButton button_0;
+	private JButton button_2; 
+	private JButton button_3;
+	private JButton button_4;
+	private JButton button_5; 
+	private JButton button_6; 
+	private JButton button_7;
+	private JButton button_8;
+	private JButton button_9;
+	private JButton button_dot;
+	private JButton button_mul;
+	private JButton button_plus;
+	private JButton button_eq;
+	private JButton button_tan;
+	private JButton button_fact;
+	private JButton button_pow;
+	private JButton button_div;
+	private JButton button_CL;
 
-	 private Double num = null,result = null;
-	
+	private Double num = null,result = null;
 	private char operation = '?';
+	private boolean enabled = true;
 
 	/**
 	 * Launch the application.
@@ -76,9 +97,19 @@ public class Calculator {
 		textField.setText("");
 	}
 	
-	
-	private double calculate_result()
+	private void clear()
 	{
+		num = null;
+		result = null;
+		operation = '?';
+		textField.setText("");
+		if(enabled == false)
+			enable();
+	}
+	
+	
+	private Double calculate_result()
+	{		
 		if(operation == '+')
 			result = num + Double.parseDouble(textField.getText());			
 		
@@ -86,10 +117,68 @@ public class Calculator {
 			result = num * Double.parseDouble(textField.getText());		
 		
 		else if(operation == '/')
-			result = num / Double.parseDouble(textField.getText());		
+		{
+			if(Double.parseDouble(textField.getText()) == 0)
+			{
+				textField.setText("NAN");
+				disable();
+				return -1.0;
+			}
+			else
+				result = num / Double.parseDouble(textField.getText());	
+		}
+		
+		else if(operation == '^')
+			result = num / Double.parseDouble(textField.getText());	
 		
 		return num;
 		
+	}
+	
+	private void disable()
+	{
+		button_del.setEnabled(false);
+		button_1.setEnabled(false);
+		button_0.setEnabled(false);
+		button_2.setEnabled(false); 
+		button_3.setEnabled(false);
+		button_4.setEnabled(false);
+		button_5.setEnabled(false); 
+		button_6.setEnabled(false); 
+		button_7.setEnabled(false);
+		button_8.setEnabled(false);
+		button_9.setEnabled(false);
+		button_dot.setEnabled(false);
+		button_mul.setEnabled(false);
+		button_plus.setEnabled(false);
+		button_eq.setEnabled(false);
+		button_tan.setEnabled(false);
+		button_fact.setEnabled(false);
+		button_pow.setEnabled(false);
+		button_div.setEnabled(false);
+		enabled = false;
+	}
+	private void enable()
+	{
+		button_del.setEnabled(true);
+		button_1.setEnabled(true);
+		button_0.setEnabled(true);
+		button_2.setEnabled(true); 
+		button_3.setEnabled(true);
+		button_4.setEnabled(true);
+		button_5.setEnabled(true); 
+		button_6.setEnabled(true); 
+		button_7.setEnabled(true);
+		button_8.setEnabled(true);
+		button_9.setEnabled(true);
+		button_dot.setEnabled(true);
+		button_mul.setEnabled(true);
+		button_plus.setEnabled(true);
+		button_eq.setEnabled(true);
+		button_tan.setEnabled(true);
+		button_fact.setEnabled(true);
+		button_pow.setEnabled(true);
+		button_div.setEnabled(true);
 	}
 	
 	
@@ -123,7 +212,7 @@ public class Calculator {
 		textField.setBackground(new Color(44, 41, 42));
 		panel.add(textField);
 		
-		JButton button_del = new JButton("DEL");
+		button_del = new JButton("DEL");
 		button_del.setForeground(new Color(255, 255, 255));
 		button_del.setBorder(null);
 		button_del.setBackground(new Color(44, 41, 42));
@@ -137,7 +226,7 @@ public class Calculator {
 		button_del.setBounds(10, 305, 65, 45);
 		frmCalculator.getContentPane().add(button_del);
 		
-		JButton button_0 = new JButton("0");
+		button_0 = new JButton("0");
 		button_0.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_0.setForeground(new Color(255, 255, 255));
 		button_0.setBounds(85, 305, 65, 45);
@@ -145,13 +234,14 @@ public class Calculator {
 		button_0.setBackground(new Color(44, 41, 42));
 		button_0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(!textField.getText().isEmpty())
-					textField.setText(textField.getText()+"0");
+				if(operation == '?' && result != null)
+					textField.setText("");
+				textField.setText(textField.getText()+"0");
 			}
 		});
 		frmCalculator.getContentPane().add(button_0);
 		
-		JButton button_1 = new JButton("1");
+		button_1 = new JButton("1");
 		button_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_1.setForeground(new Color(255, 255, 255));
 		button_1.setBounds(10, 249, 65, 45);
@@ -166,7 +256,7 @@ public class Calculator {
 		});
 		frmCalculator.getContentPane().add(button_1);
 		
-		JButton button_2 = new JButton("2");
+		button_2 = new JButton("2");
 		button_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_2.setForeground(new Color(255, 255, 255));
 		button_2.setBounds(85, 249, 65, 45);
@@ -181,7 +271,7 @@ public class Calculator {
 		});
 		frmCalculator.getContentPane().add(button_2);
 		
-		JButton button_3 = new JButton("3");
+		button_3 = new JButton("3");
 		button_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_3.setForeground(new Color(255, 255, 255));
 		button_3.setBounds(160, 249, 65, 45);
@@ -196,7 +286,7 @@ public class Calculator {
 		});
 		frmCalculator.getContentPane().add(button_3);
 		
-		JButton button_4 = new JButton("4");
+		button_4 = new JButton("4");
 		button_4.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_4.setForeground(new Color(255, 255, 255));
 		button_4.setBounds(10, 193, 65, 45);
@@ -211,7 +301,7 @@ public class Calculator {
 		});
 		frmCalculator.getContentPane().add(button_4);
 		
-		JButton button_5 = new JButton("5");
+		button_5 = new JButton("5");
 		button_5.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_5.setForeground(new Color(255, 255, 255));
 		button_5.setBounds(85, 193, 65, 45);
@@ -226,7 +316,7 @@ public class Calculator {
 		});
 		frmCalculator.getContentPane().add(button_5);
 		
-		JButton button_6 = new JButton("6");
+		button_6 = new JButton("6");
 		button_6.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_6.setForeground(new Color(255, 255, 255));
 		button_6.setBorder(null);
@@ -241,7 +331,7 @@ public class Calculator {
 		});
 		frmCalculator.getContentPane().add(button_6);
 		
-		JButton button_7 = new JButton("7");
+		button_7 = new JButton("7");
 		button_7.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_7.setForeground(new Color(255, 255, 255));
 		button_7.setBounds(10, 137, 65, 45);
@@ -256,7 +346,7 @@ public class Calculator {
 		});
 		frmCalculator.getContentPane().add(button_7);
 		
-		JButton button_8 = new JButton("8");
+		button_8 = new JButton("8");
 		button_8.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_8.setForeground(new Color(255, 255, 255));
 		button_8.setBounds(85, 137, 65, 45);
@@ -271,7 +361,7 @@ public class Calculator {
 		});
 		frmCalculator.getContentPane().add(button_8);
 		
-		JButton button_9 = new JButton("9");
+		button_9 = new JButton("9");
 		button_9.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_9.setForeground(new Color(255, 255, 255));
 		button_9.setBorder(null);
@@ -286,7 +376,7 @@ public class Calculator {
 		});
 		frmCalculator.getContentPane().add(button_9);
 		
-		JButton button_dot = new JButton(".");
+		button_dot = new JButton(".");
 		button_dot.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_dot.setForeground(new Color(255, 255, 255));
 		button_dot.setBounds(160, 305, 65, 45);
@@ -301,7 +391,7 @@ public class Calculator {
 		});
 		frmCalculator.getContentPane().add(button_dot);
 		
-		JButton button_mul = new JButton("\u00D7");
+		button_mul = new JButton("\u00D7");
 		button_mul.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_mul.setForeground(new Color(255, 255, 255));
 		button_mul.setBounds(235, 137, 65, 45);
@@ -315,7 +405,7 @@ public class Calculator {
 		});
 		frmCalculator.getContentPane().add(button_mul);
 		
-		JButton button_plus = new JButton("+");
+		button_plus = new JButton("+");
 		button_plus.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_plus.setForeground(new Color(255, 255, 255));
 		button_plus.setBounds(235, 249, 65, 45);
@@ -329,7 +419,7 @@ public class Calculator {
 		});
 		frmCalculator.getContentPane().add(button_plus);
 		
-		JButton button_eq = new JButton("=");
+		button_eq = new JButton("=");
 		button_eq.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_eq.setForeground(new Color(255, 255, 255));
 		button_eq.setBounds(235, 305, 65, 45);
@@ -339,15 +429,17 @@ public class Calculator {
 			public void actionPerformed(ActionEvent e) {
 				if(operation != '?')
 				{
-					calculate_result();
-					textField.setText(Double.toString(result));
-					operation = '?';
+					if(calculate_result() != -1)
+					{
+						textField.setText(Double.toString(result));
+						operation = '?';
+					}
 				}
 			}
 		});
 		frmCalculator.getContentPane().add(button_eq);
 		
-		JButton button_tan = new JButton("Tan");
+		button_tan = new JButton("Tan");
 		button_tan.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_tan.setForeground(new Color(255, 255, 255));
 		button_tan.setBorder(null);
@@ -360,7 +452,7 @@ public class Calculator {
 		button_tan.setBounds(10, 81, 65, 45);
 		frmCalculator.getContentPane().add(button_tan);
 		
-		JButton button_fact = new JButton("!");
+		button_fact = new JButton("!");
 		button_fact.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_fact.setForeground(new Color(255, 255, 255));
 		button_fact.setBounds(85, 81, 65, 45);
@@ -373,7 +465,7 @@ public class Calculator {
 		});
 		frmCalculator.getContentPane().add(button_fact);
 		
-		JButton button_pow = new JButton("^");
+		button_pow = new JButton("^");
 		button_pow.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_pow.setForeground(new Color(255, 255, 255));
 		button_pow.setBounds(160, 81, 65, 45);
@@ -386,7 +478,7 @@ public class Calculator {
 		});
 		frmCalculator.getContentPane().add(button_pow);
 		
-		JButton button_div = new JButton("\u00F7");
+		button_div = new JButton("\u00F7");
 		button_div.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_div.setForeground(new Color(255, 255, 255));
 		button_div.setBounds(235, 193, 65, 45);
@@ -400,7 +492,7 @@ public class Calculator {
 		});
 		frmCalculator.getContentPane().add(button_div);
 		
-		JButton button_CL = new JButton("CL");
+		button_CL = new JButton("CL");
 		button_CL.setBorder(null);
 		button_CL.setForeground(new Color(255, 255, 255));
 		button_CL.setBackground(new Color(28,69,82));
@@ -408,8 +500,7 @@ public class Calculator {
 		button_CL.setBounds(235, 81, 65, 45);
 		button_CL.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				operation = '?';
-				textField.setText("");
+				clear();
 			}
 		});
 		frmCalculator.getContentPane().add(button_CL);
