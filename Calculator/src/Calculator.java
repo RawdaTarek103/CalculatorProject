@@ -28,6 +28,10 @@ public class Calculator {
 
 	private JFrame frmCalculator;
 	private JTextField textField;
+	
+	private double num, result;
+	
+	private char operation = '?';
 
 	/**
 	 * Launch the application.
@@ -56,8 +60,18 @@ public class Calculator {
 	 * Initialize the contents of the frame.
 	 */
 	
-	
-	
+	private double calculate_result()
+	{
+		if(operation == '+')
+		{
+			result = num + Double.parseDouble(textField.getText());
+			//System.out.println(result);
+			
+		}
+		
+		return num;
+		
+	}
 	
 	
 	private void initialize() {
@@ -269,7 +283,12 @@ public class Calculator {
 		button_plus.setBackground(new Color(28,69,82));
 		button_plus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//
+				if(!(textField.getText().isEmpty()))
+				{
+					num = Double.parseDouble(textField.getText());
+					operation = '+';
+					textField.setText("");
+				}
 			}
 		});
 		frmCalculator.getContentPane().add(button_plus);
@@ -282,7 +301,11 @@ public class Calculator {
 		button_eq.setBackground(new Color(28,69,82));
 		button_eq.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//textField.setText();
+				if(operation != -1)
+				{
+					calculate_result();
+					textField.setText(Double.toString(result));
+				}
 			}
 		});
 		frmCalculator.getContentPane().add(button_eq);
