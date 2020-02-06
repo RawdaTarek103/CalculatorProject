@@ -62,6 +62,21 @@ public class Calculator {
 	 * Initialize the contents of the frame.
 	 */
 	
+	private void execute_operation(char op)
+	{
+		if(operation != '?')
+		{
+			calculate_result();
+			num = result;
+		}
+		else
+			num = Double.parseDouble(textField.getText());
+		
+		operation = op;
+		textField.setText("");
+	}
+	
+	
 	private double calculate_result()
 	{
 		if(operation == '+')
@@ -69,6 +84,9 @@ public class Calculator {
 		
 		else if(operation == '*')
 			result = num * Double.parseDouble(textField.getText());		
+		
+		else if(operation == '/')
+			result = num / Double.parseDouble(textField.getText());		
 		
 		return num;
 		
@@ -292,18 +310,7 @@ public class Calculator {
 		button_mul.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!(textField.getText().isEmpty()))
-				{
-					if(operation != '?')
-					{
-						calculate_result();
-						num = result;
-					}
-					else
-						num = Double.parseDouble(textField.getText());
-					
-					operation = '*';
-					textField.setText("");
-				}	
+					execute_operation('*');
 			}
 		});
 		frmCalculator.getContentPane().add(button_mul);
@@ -317,19 +324,7 @@ public class Calculator {
 		button_plus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!(textField.getText().isEmpty()))
-				{
-					if(operation != '?')
-					{
-						calculate_result();
-						num = result;
-					}
-					else
-						num = Double.parseDouble(textField.getText());
-					
-					operation = '+';
-					textField.setText("");
-				}
-				
+					execute_operation('+');
 			}
 		});
 		frmCalculator.getContentPane().add(button_plus);
@@ -399,7 +394,8 @@ public class Calculator {
 		button_div.setBackground(new Color(28,69,82));
 		button_div.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//
+				if(!(textField.getText().isEmpty()))
+					execute_operation('/');
 			}
 		});
 		frmCalculator.getContentPane().add(button_div);
