@@ -107,6 +107,8 @@ public class Calculator {
 			enable();
 	}
 	
+	//3! + 2 DOES NOT WORK
+	//fact and tan has to be at the end not beginning 
 	
 	private Double calculate_result()
 	{		
@@ -115,8 +117,9 @@ public class Calculator {
 		{
 			new_num = Double.parseDouble(textField.getText());
 		}catch(NumberFormatException nfe){
-			if(operation != '!')
+			if(operation != '!' && operation != 'T')
 				return -1.0;
+			
 		}
 		if(operation == '+')
 			result = num + new_num;			
@@ -149,6 +152,11 @@ public class Calculator {
 	        result = temp;
 		}
 		
+		else if(operation == 'T')
+		{
+			Double temp = Math.toRadians(num);
+			result = Math.tan(temp);
+		}
 		return num;
 		
 	}
@@ -464,7 +472,10 @@ public class Calculator {
 		button_tan.setBackground(new Color(28,69,82));
 		button_tan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//
+				if(!(textField.getText().isEmpty()))
+				{	
+					execute_operation('T');
+				}
 			}
 		});
 		button_tan.setBounds(10, 81, 65, 45);
