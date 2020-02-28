@@ -110,26 +110,44 @@ public class Calculator {
 	
 	private Double calculate_result()
 	{		
+		Double new_num = null;
+		try
+		{
+			new_num = Double.parseDouble(textField.getText());
+		}catch(NumberFormatException nfe){
+			if(operation != '!')
+				return -1.0;
+		}
 		if(operation == '+')
-			result = num + Double.parseDouble(textField.getText());			
+			result = num + new_num;			
 		
 		else if(operation == '*')
-			result = num * Double.parseDouble(textField.getText());		
+			result = num * new_num;		
 		
 		else if(operation == '/')
 		{
-			if(Double.parseDouble(textField.getText()) == 0)
+			if(new_num == 0)
 			{
 				textField.setText("NAN");
 				disable();
 				return -1.0;
 			}
 			else
-				result = num / Double.parseDouble(textField.getText());	
+				result = num / new_num;	
 		}
 		
 		else if(operation == '^')
-			result = Math.pow(num, Double.parseDouble(textField.getText()));	
+			result = Math.pow(num, new_num);
+			
+		else if(operation == '!')
+		{
+			Double temp = 1.0;
+
+	        for (int factor = 2; factor <= num; factor++) {
+	            temp *= factor;
+	        }
+	        result = temp;
+		}
 		
 		return num;
 		
@@ -460,7 +478,8 @@ public class Calculator {
 		button_fact.setBackground(new Color(28,69,82));
 		button_fact.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//
+				if(!(textField.getText().isEmpty()))
+					execute_operation('!');
 			}
 		});
 		frmCalculator.getContentPane().add(button_fact);
