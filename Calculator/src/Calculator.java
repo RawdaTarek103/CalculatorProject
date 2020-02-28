@@ -129,7 +129,7 @@ public class Calculator {
 		}
 		
 		else if(operation == '^')
-			result = num / Double.parseDouble(textField.getText());	
+			result = Math.pow(num, Double.parseDouble(textField.getText()));	
 		
 		return num;
 		
@@ -473,7 +473,8 @@ public class Calculator {
 		button_pow.setBackground(new Color(28,69,82));
 		button_pow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//
+				if(!(textField.getText().isEmpty()))
+					execute_operation('^');
 			}
 		});
 		frmCalculator.getContentPane().add(button_pow);
