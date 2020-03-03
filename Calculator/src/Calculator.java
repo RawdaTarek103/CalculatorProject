@@ -2,6 +2,7 @@ import java.awt.EventQueue;
 //button_mul.setEnabled(false);
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
@@ -38,6 +39,8 @@ import javax.xml.crypto.dsig.keyinfo.KeyValue;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
+import java.awt.SystemColor;
 
 public class Calculator {
 
@@ -67,6 +70,8 @@ public class Calculator {
 	private Double num = null,result = null;
 	private char operation = '?';
 	private boolean enabled = true;
+	private JLabel label;
+	private JLabel label_1;
 
 	/**
 	 * Launch the application.
@@ -242,7 +247,7 @@ public class Calculator {
 		frmCalculator.setTitle("Calculator\r\n");
 		frmCalculator.setBackground(new Color(0, 0, 51));
 		frmCalculator.setType(Type.UTILITY);
-		frmCalculator.setBounds(100, 100, 500, 400);
+		frmCalculator.setBounds(100, 100, 409, 400);
 		frmCalculator.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCalculator.getContentPane().setLayout(null);
 		
@@ -649,5 +654,35 @@ public class Calculator {
 			}
 		});
 		frmCalculator.getContentPane().add(button_CL);
+		
+		JButton photo_button = new JButton("press");
+		photo_button.setSelected(true);
+		photo_button.setForeground(SystemColor.window);
+		photo_button.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		photo_button.setBounds(310, 81, 73, 269);
+		photo_button.setBorder(null);
+		photo_button.setBackground(new Color(28,69,82));
+		frmCalculator.getContentPane().add(photo_button);
+		photo_button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EventQueue.invokeLater(new Runnable()
+		        {
+		            @Override
+		            public void run()
+		            {
+		                JFrame fram2 = new JFrame("photo");
+		                fram2.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		        		fram2.setBounds(235, 110, 225, 225);
+		        		label_1 = new JLabel("");
+		        		label_1.setIcon(new ImageIcon("C:\\Users\\Rawda\\Desktop\\taylor.jpg"));
+		        		label_1.setBounds(235, 110, 225, 225);
+		                fram2.setLocationByPlatform(true);
+		                fram2.setVisible(true);
+		                fram2.setResizable(false);
+		                fram2.getContentPane().add(label_1);
+		            }
+		        });
+			}
+		});
 	}
 }
