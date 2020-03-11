@@ -60,6 +60,7 @@ public class Calculator {
 	private JButton button_dot;
 	private JButton button_mul;
 	private JButton button_plus;
+	private JButton button_minus;
 	private JButton button_eq;
 	private JButton button_tan;
 	private JButton button_fact;
@@ -70,8 +71,10 @@ public class Calculator {
 	private Double num = null,result = null;
 	private char operation = '?';
 	private boolean enabled = true;
-	private JLabel label;
 	private JLabel label_1;
+	// to know one digit was written after showing result
+	private boolean first_digit = false;
+	private JButton button;
 
 	/**
 	 * Launch the application.
@@ -131,12 +134,16 @@ public class Calculator {
 		{
 			new_num = Double.parseDouble(textField.getText());
 		}catch(NumberFormatException nfe){
+			/////////////_____________________________________________________________________________
 			if(operation != '!' && operation != 'T')
 				return -1.0;
 			
 		}
 		if(operation == '+')
-			result = num + new_num;			
+			result = num + new_num;		
+		
+		if(operation == '-')
+			result = num - new_num;	
 		
 		else if(operation == '*')
 			result = num * new_num;		
@@ -236,8 +243,20 @@ public class Calculator {
 			{
 				textField.setText(Double.toString(result));
 				operation = '?';
+				first_digit = false;
 			}
 		}
+	}
+	
+	private void write_number(String num)
+	{
+		
+		if(operation == '?' && result != null && first_digit == false)
+		{
+			textField.setText("");
+			first_digit = true;
+		}
+		textField.setText(textField.getText() + num);
 	}
 	
 	private void initialize() {
@@ -247,21 +266,21 @@ public class Calculator {
 		frmCalculator.setTitle("Calculator\r\n");
 		frmCalculator.setBackground(new Color(0, 0, 51));
 		frmCalculator.setType(Type.UTILITY);
-		frmCalculator.setBounds(100, 100, 409, 400);
+		frmCalculator.setBounds(100, 100, 366, 461);
 		frmCalculator.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCalculator.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(44,41,42));
 		panel.setBorder(null);
-		panel.setBounds(0, 0, 484, 70);
+		panel.setBounds(10, 0, 330, 70);
 		frmCalculator.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		textField = new JTextField();
 		textField.setEditable(false);
 		textField.setHorizontalAlignment(SwingConstants.RIGHT);
-		textField.setBounds(10, 0, 464, 70);
+		textField.setBounds(85, 0, 245, 70);
 		textField.setToolTipText("");
 		textField.setSelectionColor(Color.BLACK);
 		textField.setForeground(Color.WHITE);
@@ -274,11 +293,13 @@ public class Calculator {
 		ActionMap act_map = panel.getActionMap();
 		
 		button_del = new JButton("DEL");
+		button_del.setFocusPainted(false);
 		button_del.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		button_del.setBounds(10, 305, 65, 45);
-		button_del.setForeground(new Color(255, 255, 255));
+		button_del.setBounds(23, 315, 65, 45);
+		button_del.setForeground(Color.WHITE);
 		button_del.setBorder(null);
 		button_del.setBackground(new Color(44, 41, 42));
+		
 		AbstractAction del = new AbstractAction() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(textField.getText().length() > 0)
@@ -292,16 +313,15 @@ public class Calculator {
 		act_map.put("del", del);
 		
 		button_0 = new JButton("0");
+		button_0.setFocusPainted(false);
 		button_0.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_0.setForeground(new Color(255, 255, 255));
-		button_0.setBounds(85, 305, 65, 45);
+		button_0.setBounds(103, 315, 65, 45);
 		button_0.setBorder(null);
 		button_0.setBackground(new Color(44, 41, 42));
 		AbstractAction b_0 = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				if(operation == '?' && result != null)
-					textField.setText("");
-				textField.setText(textField.getText()+"0");
+				write_number("0");
 			}
 		};
 		button_0.addActionListener(b_0);
@@ -312,16 +332,15 @@ public class Calculator {
 		act_map.put("num0", b_0);
 		
 		button_1 = new JButton("1");
+		button_1.setFocusPainted(false);
 		button_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_1.setForeground(new Color(255, 255, 255));
-		button_1.setBounds(10, 249, 65, 45);
+		button_1.setBounds(23, 259, 65, 45);
 		button_1.setBorder(null);
 		button_1.setBackground(new Color(44, 41, 42));
 		AbstractAction b_1 = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				if(operation == '?' && result != null)
-					textField.setText("");
-				textField.setText(textField.getText()+"1");
+				write_number("1");
 			}
 		};
 		button_1.addActionListener(b_1);
@@ -332,16 +351,15 @@ public class Calculator {
 		act_map.put("num1", b_1);
 		
 		button_2 = new JButton("2");
+		button_2.setFocusPainted(false);
 		button_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_2.setForeground(new Color(255, 255, 255));
-		button_2.setBounds(85, 249, 65, 45);
+		button_2.setBounds(103, 259, 65, 45);
 		button_2.setBorder(null);
 		button_2.setBackground(new Color(44, 41, 42));
 		AbstractAction b_2 = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				if(operation == '?' && result != null)
-					textField.setText("");
-				textField.setText(textField.getText()+"2");
+				write_number("2");
 			}
 		};
 		button_2.addActionListener(b_2);
@@ -352,16 +370,16 @@ public class Calculator {
 		act_map.put("num2", b_2);
 		
 		button_3 = new JButton("3");
+		button_3.setFocusPainted(false);
 		button_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_3.setForeground(new Color(255, 255, 255));
-		button_3.setBounds(160, 249, 65, 45);
+		button_3.setBounds(183, 259, 65, 45);
 		button_3.setBorder(null);
 		button_3.setBackground(new Color(44, 41, 42));
 		AbstractAction b_3 = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				if(operation == '?' && result != null)
-					textField.setText("");
-				textField.setText(textField.getText()+"3");
+				
+				write_number("3");
 			}
 		};
 		button_3.addActionListener(b_3);
@@ -372,21 +390,15 @@ public class Calculator {
 		act_map.put("num3", b_3);
 		
 		button_4 = new JButton("4");
-		button_4.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent arg0) {
-			}
-		});
+		button_4.setFocusPainted(false);
 		button_4.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_4.setForeground(new Color(255, 255, 255));
-		button_4.setBounds(10, 193, 65, 45);
+		button_4.setBounds(23, 203, 65, 45);
 		button_4.setBorder(null);
 		button_4.setBackground(new Color(44, 41, 42));
 		AbstractAction b_4 = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				if(operation == '?' && result != null)
-					textField.setText("");
-				textField.setText(textField.getText()+"4");
+				write_number("4");
 			}
 		};
 		button_4.addActionListener(b_4);
@@ -397,16 +409,15 @@ public class Calculator {
 		act_map.put("num4", b_4);
 		
 		button_5 = new JButton("5");
+		button_5.setFocusPainted(false);
 		button_5.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_5.setForeground(new Color(255, 255, 255));
-		button_5.setBounds(85, 193, 65, 45);
+		button_5.setBounds(103, 203, 65, 45);
 		button_5.setBorder(null);
 		button_5.setBackground(new Color(44, 41, 42));
 		AbstractAction b_5 = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				if(operation == '?' && result != null)
-					textField.setText("");
-				textField.setText(textField.getText()+"5");
+				write_number("5");
 			}
 		};
 		button_5.addActionListener(b_5);
@@ -417,16 +428,15 @@ public class Calculator {
 		act_map.put("num5", b_5);
 		
 		button_6 = new JButton("6");
+		button_6.setFocusPainted(false);
 		button_6.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_6.setForeground(new Color(255, 255, 255));
 		button_6.setBorder(null);
 		button_6.setBackground(new Color(44, 41, 42));
-		button_6.setBounds(160, 193, 65, 45);
+		button_6.setBounds(183, 203, 65, 45);
 		AbstractAction b_6 = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				if(operation == '?' && result != null)
-					textField.setText("");
-				textField.setText(textField.getText()+"6");
+				write_number("6");
 			}
 		};
 		button_6.addActionListener(b_6);
@@ -438,16 +448,15 @@ public class Calculator {
 		
 		
 		button_7 = new JButton("7");
+		button_7.setFocusPainted(false);
 		button_7.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_7.setForeground(new Color(255, 255, 255));
-		button_7.setBounds(10, 137, 65, 45);
+		button_7.setBounds(23, 147, 65, 45);
 		button_7.setBorder(null);
 		button_7.setBackground(new Color(44, 41, 42));
 		AbstractAction b_7 = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				if(operation == '?' && result != null)
-					textField.setText("");
-				textField.setText(textField.getText()+"7");
+				write_number("7");
 			}
 		};
 		button_7.addActionListener(b_7);
@@ -458,16 +467,15 @@ public class Calculator {
 		act_map.put("num7", b_7);
 		
 		button_8 = new JButton("8");
+		button_8.setFocusPainted(false);
 		button_8.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_8.setForeground(new Color(255, 255, 255));
-		button_8.setBounds(85, 137, 65, 45);
+		button_8.setBounds(103, 147, 65, 45);
 		button_8.setBorder(null);
 		button_8.setBackground(new Color(44, 41, 42));
 		AbstractAction b_8 = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				if(operation == '?' && result != null)
-					textField.setText("");
-				textField.setText(textField.getText()+"8");
+				write_number("8");
 			}
 		};
 		button_8.addActionListener(b_8);
@@ -478,16 +486,15 @@ public class Calculator {
 		act_map.put("num8", b_8);
 		
 		button_9 = new JButton("9");
+		button_9.setFocusPainted(false);
 		button_9.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_9.setForeground(new Color(255, 255, 255));
 		button_9.setBorder(null);
 		button_9.setBackground(new Color(44, 41, 42));
-		button_9.setBounds(160, 137, 65, 45);
+		button_9.setBounds(183, 147, 65, 45);
 		AbstractAction b_9 = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				if(operation == '?' && result != null)
-					textField.setText("");
-				textField.setText(textField.getText()+"9");
+				write_number("9");
 			}
 		};
 		button_9.addActionListener(b_9);
@@ -498,16 +505,15 @@ public class Calculator {
 		act_map.put("num9", b_9);
 		
 		button_dot = new JButton(".");
+		button_dot.setFocusPainted(false);
 		button_dot.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_dot.setForeground(new Color(255, 255, 255));
-		button_dot.setBounds(160, 305, 65, 45);
+		button_dot.setBounds(183, 315, 65, 45);
 		button_dot.setBorder(null);
 		button_dot.setBackground(new Color(44, 41, 42));
 		AbstractAction b_dot = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				if(operation == '?' && result != null)
-					textField.setText("");
-				textField.setText(textField.getText()+".");
+				write_number(".");
 			}
 		};
 		button_dot.addActionListener(b_dot);
@@ -517,9 +523,10 @@ public class Calculator {
 		act_map.put("dot", b_dot);
 		
 		button_mul = new JButton("\u00D7");
+		button_mul.setFocusPainted(false);
 		button_mul.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_mul.setForeground(new Color(255, 255, 255));
-		button_mul.setBounds(235, 137, 65, 45);
+		button_mul.setBounds(264, 147, 65, 45);
 		button_mul.setBorder(null);
 		button_mul.setBackground(new Color(28,69,82));
 		AbstractAction mul = new AbstractAction() {
@@ -535,9 +542,10 @@ public class Calculator {
 		act_map.put("mul", mul);
 		
 		button_plus = new JButton("+");
+		button_plus.setFocusPainted(false);
 		button_plus.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_plus.setForeground(new Color(255, 255, 255));
-		button_plus.setBounds(235, 249, 65, 45);
+		button_plus.setBounds(264, 259, 65, 45);
 		button_plus.setBorder(null);
 		button_plus.setBackground(new Color(28,69,82));
 		AbstractAction plus = new AbstractAction() {
@@ -552,10 +560,30 @@ public class Calculator {
 		in_map.put(KeyStroke.getKeyStroke('+'),"plus");
 		act_map.put("plus", plus);
 		
+		button_minus = new JButton("-");
+		button_minus.setFocusPainted(false);
+		button_minus.setForeground(Color.WHITE);
+		button_minus.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		button_minus.setBorder(null);
+		button_minus.setBackground(new Color(28, 69, 82));
+		button_minus.setBounds(264, 315, 65, 45);
+		AbstractAction minus = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				if(!(textField.getText().isEmpty()))
+					execute_operation('-');
+			}
+		};
+		button_minus.addActionListener(minus);
+		frmCalculator.getContentPane().add(button_minus);
+		
+		in_map.put(KeyStroke.getKeyStroke('-'),"minus");
+		act_map.put("minus", minus);
+		
 		button_eq = new JButton("=");
+		button_eq.setFocusPainted(false);
 		button_eq.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_eq.setForeground(new Color(255, 255, 255));
-		button_eq.setBounds(235, 305, 65, 45);
+		button_eq.setBounds(264, 368, 65, 45);
 		button_eq.setBorder(null);
 		button_eq.setBackground(new Color(28,69,82));
 		AbstractAction eq = new AbstractAction() {
@@ -571,6 +599,7 @@ public class Calculator {
 		act_map.put("eq", eq);
 		
 		button_tan = new JButton("Tan");
+		button_tan.setFocusPainted(false);
 		button_tan.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_tan.setForeground(new Color(255, 255, 255));
 		button_tan.setBorder(null);
@@ -584,13 +613,14 @@ public class Calculator {
 				}
 			}
 		});
-		button_tan.setBounds(10, 81, 65, 45);
+		button_tan.setBounds(23, 91, 65, 45);
 		frmCalculator.getContentPane().add(button_tan);
 		
 		button_fact = new JButton("!");
+		button_fact.setFocusPainted(false);
 		button_fact.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_fact.setForeground(new Color(255, 255, 255));
-		button_fact.setBounds(85, 81, 65, 45);
+		button_fact.setBounds(103, 91, 65, 45);
 		button_fact.setBorder(null);
 		button_fact.setBackground(new Color(28,69,82));
 		AbstractAction fact = new AbstractAction() {
@@ -607,9 +637,10 @@ public class Calculator {
 		act_map.put("fact", fact);
 		
 		button_pow = new JButton("^");
+		button_pow.setFocusPainted(false);
 		button_pow.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_pow.setForeground(new Color(255, 255, 255));
-		button_pow.setBounds(160, 81, 65, 45);
+		button_pow.setBounds(183, 91, 65, 45);
 		button_pow.setBorder(null);
 		button_pow.setBackground(new Color(28,69,82));
 		AbstractAction pow =new AbstractAction() {
@@ -625,9 +656,10 @@ public class Calculator {
 		act_map.put("pow", pow);
 		
 		button_div = new JButton("\u00F7");
+		button_div.setFocusPainted(false);
 		button_div.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_div.setForeground(new Color(255, 255, 255));
-		button_div.setBounds(235, 193, 65, 45);
+		button_div.setBounds(264, 203, 65, 45);
 		button_div.setBorder(null);
 		button_div.setBackground(new Color(28,69,82));
 		AbstractAction div = new AbstractAction() {
@@ -643,11 +675,12 @@ public class Calculator {
 		act_map.put("div", div);
 		
 		button_CL = new JButton("CL");
+		button_CL.setFocusPainted(false);
 		button_CL.setBorder(null);
 		button_CL.setForeground(new Color(255, 255, 255));
 		button_CL.setBackground(new Color(28,69,82));
 		button_CL.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		button_CL.setBounds(235, 81, 65, 45);
+		button_CL.setBounds(264, 91, 65, 45);
 		button_CL.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				clear();
@@ -656,13 +689,14 @@ public class Calculator {
 		frmCalculator.getContentPane().add(button_CL);
 		
 		JButton photo_button = new JButton("press");
-		photo_button.setSelected(true);
+		photo_button.setFocusPainted(false);
+		photo_button.setBounds(23, 371, 225, 40);
+		frmCalculator.getContentPane().add(photo_button);
 		photo_button.setForeground(SystemColor.window);
 		photo_button.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		photo_button.setBounds(310, 81, 73, 269);
 		photo_button.setBorder(null);
-		photo_button.setBackground(new Color(28,69,82));
-		frmCalculator.getContentPane().add(photo_button);
+		photo_button.setBackground(new Color(44, 41, 42));
+	
 		photo_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				EventQueue.invokeLater(new Runnable()
@@ -672,9 +706,9 @@ public class Calculator {
 		            {
 		                JFrame fram2 = new JFrame("photo");
 		                fram2.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		        		fram2.setBounds(235, 110, 225, 225);
+		        		fram2.setBounds(235, 110, 400, 400);
 		        		label_1 = new JLabel("");
-		        		label_1.setIcon(new ImageIcon("C:\\Users\\Rawda\\Desktop\\taylor.jpg"));
+		        		label_1.setIcon(new ImageIcon("C:\\Users\\Rawda\\Desktop\\med7at\\CalculatorProject\\images\\taylor.PNG"));
 		        		label_1.setBounds(235, 110, 225, 225);
 		                fram2.setLocationByPlatform(true);
 		                fram2.setVisible(true);
